@@ -250,7 +250,6 @@ namespace Student_Life_Cost
                                       value = c.value,
                                       date = c.year + "/" + c.month + "/" + c.day
                                   }).ToList();
-                    ClearTextBoxes();
                     dataGridView1.DataSource = search;
 
                 }
@@ -259,10 +258,33 @@ namespace Student_Life_Cost
                     MessageBox.Show("Value Should be Decimal!!");
                 }
 
-                if (!byDate && acc == "" && stid == "" && isDecimal && txt_com.Text == "")
+                if (!byDate && acc == "" && stid == "" && isDecimal && txt_com.Text == "" && txt_value.Text == "")
                 {
                     dataGridView1.DataSource = null;
                 }
+            }
+            Disconnect();
+        }
+
+        private void Btn_refresh_Click(object sender, EventArgs e)
+        {
+            ClearTextBoxes();
+            Connect();
+            using (var db = new StdLifeEntities())
+            {
+                var result = from x in db.students
+                             join c in db.Buys on x.st_id equals c.st_id
+                             join z in db.BankAccs on c.accNumber equals z.accNumber
+                             select new
+                             {
+                                 student_id = c.st_id,
+                                 name = x.fname + x.lname,
+                                 acc_number = z.accNumber,
+                                 Commodity = c.stuff,
+                                 value = c.value,
+                                 date = c.year + "/" + c.month + "/" + c.day
+                             };
+                dataGridView1.DataSource = result.ToList();
             }
             Disconnect();
         }

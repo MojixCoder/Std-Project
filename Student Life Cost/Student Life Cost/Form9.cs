@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace Student_Life_Cost
 {
-    public partial class Form5 : Form
+    public partial class Form9 : Form
     {
         private SqlConnection conn;
         public void Connect()
@@ -29,15 +29,10 @@ namespace Student_Life_Cost
         {
             return id;
         }
-        public Form5(string id2)
+        public Form9(string id2)
         {
             InitializeComponent();
             id = id2;
-        }
-
-        private void ClearTextBoxes()
-        {
-            txt_value.Text = "";
         }
 
         private void fillCombo()
@@ -51,7 +46,7 @@ namespace Student_Life_Cost
                                   acc_number = x.accNumber
                               });
 
-                foreach(var acc in result.ToArray())
+                foreach (var acc in result.ToArray())
                 {
                     comboBox1.Items.Add(acc.acc_number);
                 }
@@ -78,8 +73,12 @@ namespace Student_Life_Cost
                 Disconnect();
             }
         }
+        private void ClearTextBoxes()
+        {
+            txt_value.Text = txt_com.Text = "";
+        }
 
-        private void Form5_Load(object sender, EventArgs e)
+        private void Form9_Load(object sender, EventArgs e)
         {
             Connect();
             fillCombo();
@@ -87,16 +86,17 @@ namespace Student_Life_Cost
             using (var db = new StdLifeEntities())
             {
                 var result = from x in db.students
-                         join c in db.Deposits on x.st_id equals c.st_id
-                         join z in db.BankAccs on c.accNumber equals z.accNumber
-                         select new
-                         {
-                             student_id = c.st_id,
-                             name = x.fname + x.lname,
-                             acc_number = z.accNumber,
-                             value = c.value,
-                             date = c.year + "/" + c.month + "/" + c.day
-                         };
+                             join c in db.Buys on x.st_id equals c.st_id
+                             join z in db.BankAccs on c.accNumber equals z.accNumber
+                             select new
+                             {
+                                 student_id = c.st_id,
+                                 name = x.fname + x.lname,
+                                 acc_number = z.accNumber,
+                                 Commodity = c.stuff,
+                                 value = c.value,
+                                 date = c.year + "/" + c.month + "/" + c.day
+                             };
                 dataGridView1.DataSource = result.ToList();
                 Disconnect();
             }
@@ -110,17 +110,18 @@ namespace Student_Life_Cost
         private void Btn_back_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form2 f2 = new Form2(Id());
-            f2.Show();
+            Form7 f7 = new Form7(Id());
+            f7.Show();
         }
 
-        private void Btn_deposit_Click(object sender, EventArgs e)
+
+        private void Btn_buy_Click_1(object sender, EventArgs e)
         {
-            if(txt_value.Text != "" && comboBox1.GetItemText(comboBox1.SelectedItem) != "")
+            if (txt_value.Text != "" && comboBox1.GetItemText(comboBox1.SelectedItem) != "" && txt_com.Text != "")
             {
                 Connect();
 
-               
+
                 using (var db = new StdLifeEntities())
                 {
                     string acc = comboBox1.GetItemText(comboBox1.SelectedItem);
@@ -133,36 +134,46 @@ namespace Student_Life_Cost
                         bool isDecimal = Decimal.TryParse(txt_value.Text, out value);
                         if (isDecimal)
                         {
-                            DialogResult result = MessageBox.Show("Are you sure you want to Deposit?", "DEPOSIT", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
+                            if (query.balance > value)
                             {
-                                Deposit add_dp = new Deposit();
-                                add_dp.st_id = Id();
-                                add_dp.accNumber = acc;
-                                add_dp.value = value;
-                                add_dp.year = dateTimePicker1.Value.Year.ToString();
-                                add_dp.month = dateTimePicker1.Value.Month.ToString();
-                                add_dp.day = dateTimePicker1.Value.Day.ToString();
-                                db.Deposits.Add(add_dp);
-                                db.SaveChanges();
-                                BankAcc upd_acc = (from c in db.BankAccs where c.accNumber == acc select c).FirstOrDefault<BankAcc>();
-                                upd_acc.balance += value;
-                                db.SaveChanges();
-                                Disconnect();
-                                ClearTextBoxes();
+                                DialogResult result = MessageBox.Show("Are you sure you want to Buy?", "BUY", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    Buy add_by = new Buy();
+                                    add_by.stuff = txt_com.Text;
+                                    add_by.st_id = Id();
+                                    add_by.accNumber = acc;
+                                    add_by.value = value;
+                                    add_by.year = dateTimePicker1.Value.Year.ToString();
+                                    add_by.month = dateTimePicker1.Value.Month.ToString();
+                                    add_by.day = dateTimePicker1.Value.Day.ToString();
+                                    db.Buys.Add(add_by);
+                                    db.SaveChanges();
+                                    BankAcc upd_acc = (from c in db.BankAccs where c.accNumber == acc select c).FirstOrDefault<BankAcc>();
+                                    upd_acc.balance -= value;
+                                    db.SaveChanges();
+                                    Disconnect();
+                                    ClearTextBoxes();
+                                }
+                                var asd = from x in db.students
+                                          join c in db.Buys on x.st_id equals c.st_id
+                                          join z in db.BankAccs on c.accNumber equals z.accNumber
+                                          select new
+                                          {
+                                              student_id = c.st_id,
+                                              name = x.fname + x.lname,
+                                              acc_number = z.accNumber,
+                                              Commodity = c.stuff,
+                                              value = c.value,
+                                              date = c.year + "/" + c.month + "/" + c.day
+                                          };
+                                dataGridView1.DataSource = asd.ToList();
                             }
-                            var asd = from x in db.students
-                                      join c in db.Deposits on x.st_id equals c.st_id     
-                                      join z in db.BankAccs on c.accNumber equals z.accNumber
-                                      select new
-                                      {
-                                          student_id = c.st_id,
-                                          name = x.fname + x.lname,
-                                          acc_number = z.accNumber,
-                                          value = c.value,
-                                          date = c.year + "/" + c.month + "/" + c.day
-                                      };
-                            dataGridView1.DataSource = asd.ToList();
+                            else
+                            {
+                                MessageBox.Show("Not enough Balance for this Commodity!!");
+                            }
+
                         }
                         else
                         {
@@ -174,7 +185,7 @@ namespace Student_Life_Cost
                     {
                         MessageBox.Show("No Bank Account with this Account number exists!!!!");
                     }
-                   
+
 
                 }
 
@@ -182,9 +193,8 @@ namespace Student_Life_Cost
             }
             else
             {
-                MessageBox.Show("Fill value and Date and Account Number!!");
+                MessageBox.Show("Fill Commodity and Value and Date and Account Number!!");
             }
-           
         }
 
         private void Btn_search_Click(object sender, EventArgs e)
@@ -223,7 +233,7 @@ namespace Student_Life_Cost
 
 
                     var search = (from x in db.students
-                                  join c in db.Deposits on x.st_id equals c.st_id
+                                  join c in db.Buys on x.st_id equals c.st_id
                                   join z in db.BankAccs on c.accNumber equals z.accNumber
                                   where (c.year == year || year == "")
                                         && (c.month == month || month == "")
@@ -231,15 +241,16 @@ namespace Student_Life_Cost
                                         && (c.value == value || txt_value.Text == "")
                                         && (c.accNumber == acc || acc == "")
                                         && (c.st_id == stid || stid == "")
+                                        && (c.stuff == txt_com.Text || txt_com.Text == "")
                                   select new
                                   {
                                       student_id = c.st_id,
                                       name = x.fname + " " + x.lname,
                                       acc_number = z.accNumber,
+                                      Commodity = c.stuff,
                                       value = c.value,
                                       date = c.year + "/" + c.month + "/" + c.day
                                   }).ToList();
-                    ClearTextBoxes();
                     dataGridView1.DataSource = search;
 
                 }
@@ -247,8 +258,8 @@ namespace Student_Life_Cost
                 {
                     MessageBox.Show("Value Should be Decimal!!");
                 }
-                
-                if(!byDate && acc == "" && stid == "" && isDecimal && txt_value.Text == "")
+
+                if (!byDate && acc == "" && stid == "" && isDecimal && txt_com.Text == "")
                 {
                     dataGridView1.DataSource = null;
                 }
@@ -263,13 +274,14 @@ namespace Student_Life_Cost
             using (var db = new StdLifeEntities())
             {
                 var result = from x in db.students
-                             join c in db.Deposits on x.st_id equals c.st_id
+                             join c in db.Buys on x.st_id equals c.st_id
                              join z in db.BankAccs on c.accNumber equals z.accNumber
                              select new
                              {
                                  student_id = c.st_id,
                                  name = x.fname + x.lname,
                                  acc_number = z.accNumber,
+                                 Commodity = c.stuff,
                                  value = c.value,
                                  date = c.year + "/" + c.month + "/" + c.day
                              };
@@ -278,7 +290,4 @@ namespace Student_Life_Cost
             Disconnect();
         }
     }
-    }
-
-
-
+}

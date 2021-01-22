@@ -40,6 +40,7 @@
     <Property Name="fname" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="lname" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="password" Type="varchar" MaxLength="14" Nullable="false" />
+    <Property Name="role" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -52,7 +53,9 @@
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <Association Name="FK_Buy_BankAcc">
-    <End Role="BankAcc" Type="Self.BankAcc" Multiplicity="1" />
+    <End Role="BankAcc" Type="Self.BankAcc" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BankAcc">
@@ -64,7 +67,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Buy_student">
-    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="student" Type="Self.student" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="student">
@@ -76,7 +81,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Deposit_BankAcc1">
-    <End Role="BankAcc" Type="Self.BankAcc" Multiplicity="1" />
+    <End Role="BankAcc" Type="Self.BankAcc" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Deposit" Type="Self.Deposit" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BankAcc">
@@ -88,7 +95,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Deposit_student1">
-    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="student" Type="Self.student" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Deposit" Type="Self.Deposit" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="student">

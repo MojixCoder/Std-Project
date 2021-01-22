@@ -18,3 +18,6 @@ C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debu
 C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form4.resources
 C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form5.resources
 C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form6.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form7.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form8.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form9.resources

@@ -40,9 +40,19 @@ namespace Student_Life_Cost
                 if (query != null)
                 {
                     string id = query.st_id;
-                    this.Hide();
-                    Form2 f2 = new Form2(id);
-                    f2.Show();
+                    if (query.role == "admin")
+                    {
+                        this.Hide();
+                        Form2 f2 = new Form2(id);
+                        f2.Show();
+                    }
+                    else
+                    {
+                        this.Hide();
+                        Form7 f7 = new Form7(id);
+                        f7.Show();
+                    }
+                   
                 }
                 else
                 {

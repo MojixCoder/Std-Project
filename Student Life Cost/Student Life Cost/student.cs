@@ -25,6 +25,7 @@ namespace Student_Life_Cost
         public string fname { get; set; }
         public string lname { get; set; }
         public string password { get; set; }
+        public string role { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Buy> Buys { get; set; }

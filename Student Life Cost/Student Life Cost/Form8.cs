@@ -11,9 +11,10 @@ using System.Data.SqlClient;
 
 namespace Student_Life_Cost
 {
-    public partial class Form5 : Form
+    public partial class Form8 : Form
     {
         private SqlConnection conn;
+
         public void Connect()
         {
             conn = new SqlConnection("Server=.;Database=StdLife;Trusted_Connection=True;");
@@ -23,13 +24,12 @@ namespace Student_Life_Cost
         {
             conn.Close();
         }
-
         private string id;
         public string Id()
         {
             return id;
         }
-        public Form5(string id2)
+        public Form8(string id2)
         {
             InitializeComponent();
             id = id2;
@@ -51,7 +51,7 @@ namespace Student_Life_Cost
                                   acc_number = x.accNumber
                               });
 
-                foreach(var acc in result.ToArray())
+                foreach (var acc in result.ToArray())
                 {
                     comboBox1.Items.Add(acc.acc_number);
                 }
@@ -79,7 +79,7 @@ namespace Student_Life_Cost
             }
         }
 
-        private void Form5_Load(object sender, EventArgs e)
+        private void Form8_Load(object sender, EventArgs e)
         {
             Connect();
             fillCombo();
@@ -87,40 +87,30 @@ namespace Student_Life_Cost
             using (var db = new StdLifeEntities())
             {
                 var result = from x in db.students
-                         join c in db.Deposits on x.st_id equals c.st_id
-                         join z in db.BankAccs on c.accNumber equals z.accNumber
-                         select new
-                         {
-                             student_id = c.st_id,
-                             name = x.fname + x.lname,
-                             acc_number = z.accNumber,
-                             value = c.value,
-                             date = c.year + "/" + c.month + "/" + c.day
-                         };
+                             join c in db.Deposits on x.st_id equals c.st_id
+                             join z in db.BankAccs on c.accNumber equals z.accNumber
+                             select new
+                             {
+                                 student_id = c.st_id,
+                                 name = x.fname + x.lname,
+                                 acc_number = z.accNumber,
+                                 value = c.value,
+                                 date = c.year + "/" + c.month + "/" + c.day
+                             };
                 dataGridView1.DataSource = result.ToList();
                 Disconnect();
             }
         }
 
-        private void Btn_exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
 
-        private void Btn_back_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            Form2 f2 = new Form2(Id());
-            f2.Show();
-        }
 
-        private void Btn_deposit_Click(object sender, EventArgs e)
+        private void Btn_deposit_Click_1(object sender, EventArgs e)
         {
-            if(txt_value.Text != "" && comboBox1.GetItemText(comboBox1.SelectedItem) != "")
+            if (txt_value.Text != "" && comboBox1.GetItemText(comboBox1.SelectedItem) != "")
             {
                 Connect();
 
-               
+
                 using (var db = new StdLifeEntities())
                 {
                     string acc = comboBox1.GetItemText(comboBox1.SelectedItem);
@@ -152,7 +142,7 @@ namespace Student_Life_Cost
                                 ClearTextBoxes();
                             }
                             var asd = from x in db.students
-                                      join c in db.Deposits on x.st_id equals c.st_id     
+                                      join c in db.Deposits on x.st_id equals c.st_id
                                       join z in db.BankAccs on c.accNumber equals z.accNumber
                                       select new
                                       {
@@ -174,7 +164,7 @@ namespace Student_Life_Cost
                     {
                         MessageBox.Show("No Bank Account with this Account number exists!!!!");
                     }
-                   
+
 
                 }
 
@@ -184,10 +174,9 @@ namespace Student_Life_Cost
             {
                 MessageBox.Show("Fill value and Date and Account Number!!");
             }
-           
         }
 
-        private void Btn_search_Click(object sender, EventArgs e)
+        private void Btn_search_Click_1(object sender, EventArgs e)
         {
             bool byDate = checkBox1.Checked;
             Connect();
@@ -247,8 +236,8 @@ namespace Student_Life_Cost
                 {
                     MessageBox.Show("Value Should be Decimal!!");
                 }
-                
-                if(!byDate && acc == "" && stid == "" && isDecimal && txt_value.Text == "")
+
+                if (!byDate && acc == "" && stid == "" && isDecimal)
                 {
                     dataGridView1.DataSource = null;
                 }
@@ -256,9 +245,20 @@ namespace Student_Life_Cost
             Disconnect();
         }
 
+        private void Btn_exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void Btn_back_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form7 f7 = new Form7(Id());
+            f7.Show();
+        }
+
         private void Btn_refresh_Click(object sender, EventArgs e)
         {
-            ClearTextBoxes();
             Connect();
             using (var db = new StdLifeEntities())
             {
@@ -276,9 +276,7 @@ namespace Student_Life_Cost
                 dataGridView1.DataSource = result.ToList();
             }
             Disconnect();
+
         }
     }
-    }
-
-
-
+}

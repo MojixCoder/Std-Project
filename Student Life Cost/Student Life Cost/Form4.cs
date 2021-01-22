@@ -112,7 +112,6 @@ namespace Student_Life_Cost
                                       balance = c.balance
                                   }).ToList();
 
-                    ClearTextBoxes();
                     dataGridView1.DataSource = search;
                 }
                 else
@@ -203,11 +202,14 @@ namespace Student_Life_Cost
                                            select c);
                         if (check_exist.FirstOrDefault() != null)
                         {
-                            BankAcc del_acc = (from c in db.BankAccs
+                            var del_acc = (from c in db.BankAccs
                                                where (c.accNumber == txt_acc.Text || txt_acc.Text == "")
                                                      && (c.balance == balance || txt_balance.Text == "")
-                                               select c).FirstOrDefault<BankAcc>();
-                            db.BankAccs.Remove(del_acc);
+                                               select c);
+                            foreach(BankAcc a in del_acc.ToList())
+                            {
+                                db.BankAccs.Remove(a);
+                            }
                             db.SaveChanges();
                         }
                         else
@@ -279,6 +281,24 @@ namespace Student_Life_Cost
                 }
                 Disconnect();
             }
+        }
+
+        private void Btn_refresh_Click(object sender, EventArgs e)
+        {
+            ClearTextBoxes();
+            Connect();
+            using (var db = new StdLifeEntities())
+            {
+                var search = (from c in db.BankAccs
+                              select new
+                              {
+                                  acc_number = c.accNumber,
+                                  balance = c.balance
+                              }).ToList();
+
+                dataGridView1.DataSource = search;
+            }
+            Disconnect();
         }
     }
 }

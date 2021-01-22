@@ -102,6 +102,7 @@ namespace Student_Life_Cost
                             add_st.fname = txt_fname.Text;
                             add_st.lname = txt_lname.Text;
                             add_st.password = txt_pass.Text;
+                            add_st.role = "st";
                             db.students.Add(add_st);
                             db.SaveChanges();
                             Disconnect();
@@ -144,12 +145,15 @@ namespace Student_Life_Cost
                                        select c);
                     if (check_exist.FirstOrDefault() != null)
                     {
-                        student del_contact = (from c in db.students
+                        var del_st = (from c in db.students
                                                where (c.st_id == txt_id.Text || txt_id.Text == "")
                                                      && (c.fname == txt_fname.Text || txt_fname.Text == "")
                                                      && (c.lname == txt_lname.Text || txt_lname.Text == "")
-                                               select c).FirstOrDefault<student>();
-                        db.students.Remove(del_contact);
+                                               select c);
+                        foreach(student a in del_st.ToList())
+                        {
+                            db.students.Remove(a);
+                        }
                         db.SaveChanges();
                     }
                     else
@@ -218,7 +222,6 @@ namespace Student_Life_Cost
                                            lname = c.lname
                                        }).ToList();
 
-                ClearTextBoxes();
                 dataGridView1.DataSource = search;
             }
             Disconnect();
@@ -355,6 +358,25 @@ namespace Student_Life_Cost
             SetBtnUpdate();
             SetBtnSearch();
 
+        }
+
+        private void Btn_refresh_Click(object sender, EventArgs e)
+        {
+            ClearTextBoxes();
+            Connect();
+            using (var db = new StdLifeEntities())
+            {
+                var search = (from c in db.students
+                              select new
+                              {
+                                  id = c.st_id,
+                                  fname = c.fname,
+                                  lname = c.lname
+                              }).ToList();
+
+                dataGridView1.DataSource = search;
+            }
+            Disconnect();
         }
     }
 }
