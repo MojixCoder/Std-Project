@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StdLifeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BankAcc">
+    <Key>
+      <PropertyRef Name="accNumber" />
+    </Key>
+    <Property Name="accNumber" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="balance" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Buy">
+    <Key>
+      <PropertyRef Name="buy_id" />
+    </Key>
+    <Property Name="buy_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="st-id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="accNumber" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="stuff" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="value" Type="money" Nullable="false" />
+    <Property Name="day" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="month" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="year" Type="varchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Deposit">
+    <Key>
+      <PropertyRef Name="dep_id" />
+    </Key>
+    <Property Name="st-id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="accNumber" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="value" Type="money" Nullable="false" />
+    <Property Name="day" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="month" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="year" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="dep_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="st-id" />
+    </Key>
+    <Property Name="st-id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="fname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="lname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="14" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Buy_BankAcc">
+    <End Role="BankAcc" Type="Self.BankAcc" Multiplicity="1" />
+    <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankAcc">
+        <PropertyRef Name="accNumber" />
+      </Principal>
+      <Dependent Role="Buy">
+        <PropertyRef Name="accNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Buy_student">
+    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="st-id" />
+      </Principal>
+      <Dependent Role="Buy">
+        <PropertyRef Name="st-id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Deposit_BankAcc1">
+    <End Role="BankAcc" Type="Self.BankAcc" Multiplicity="1" />
+    <End Role="Deposit" Type="Self.Deposit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankAcc">
+        <PropertyRef Name="accNumber" />
+      </Principal>
+      <Dependent Role="Deposit">
+        <PropertyRef Name="accNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Deposit_student1">
+    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="Deposit" Type="Self.Deposit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="st-id" />
+      </Principal>
+      <Dependent Role="Deposit">
+        <PropertyRef Name="st-id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StdLifeModelStoreContainer">
+    <EntitySet Name="BankAcc" EntityType="Self.BankAcc" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Buy" EntityType="Self.Buy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Deposit" EntityType="Self.Deposit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Buy_BankAcc" Association="Self.FK_Buy_BankAcc">
+      <End Role="BankAcc" EntitySet="BankAcc" />
+      <End Role="Buy" EntitySet="Buy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Buy_student" Association="Self.FK_Buy_student">
+      <End Role="student" EntitySet="student" />
+      <End Role="Buy" EntitySet="Buy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Deposit_BankAcc1" Association="Self.FK_Deposit_BankAcc1">
+      <End Role="BankAcc" EntitySet="BankAcc" />
+      <End Role="Deposit" EntitySet="Deposit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Deposit_student1" Association="Self.FK_Deposit_student1">
+      <End Role="student" EntitySet="student" />
+      <End Role="Deposit" EntitySet="Deposit" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

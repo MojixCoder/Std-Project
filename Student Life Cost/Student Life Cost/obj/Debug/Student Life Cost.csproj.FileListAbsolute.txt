@@ -1,0 +1,20 @@
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\Student Life Cost.exe.config
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\Student Life Cost.exe
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\Student Life Cost.pdb
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student Life Cost.csprojAssemblyReference.cache
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form1.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Properties.Resources.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student Life Cost.csproj.GenerateResource.cache
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student Life Cost.csproj.CoreCompileInputs.cache
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student Life Cost.exe
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student Life Cost.pdb
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form2.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\EntityFramework.dll
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\EntityFramework.xml
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student Life Cost.csproj.CopyComplete
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form3.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form4.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form5.resources
+C:\Users\mojtaba\Desktop\stdProject\Student Life Cost\Student Life Cost\obj\Debug\Student_Life_Cost.Form6.resources
